@@ -1,1 +1,0 @@
-# nestjs-hexagonal-companies-api
