@@ -1,0 +1,4 @@
+export enum CompanyType {
+    EMPRESA_PYME = 'EMPRESA_PYME',
+    EMPRESA_CORPORATIVA = 'EMPRESA_CORPORATIVA'
+  }
