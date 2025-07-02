@@ -8,7 +8,7 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
+    "start": "nest build && nest start --watch",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
@@ -29,6 +29,7 @@
     "aws-lambda": "^1.0.7",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
+    "nodemon": "^3.1.10",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
   },
@@ -69,15 +70,15 @@
       "ts"
     ],
     "rootDir": ".",
-  "testRegex": "(\\\\src\\\\.*|\\\\test\\\\.*)\\.(spec|test)\\.ts$",
-  "transform": {
-    "^.+\\.(t|j)s$": "ts-jest"
-  },
-  "collectCoverageFrom": [
-    "src/**/*.(t|j)s",
-    "test/**/*.(t|j)s"
-  ],
-  "coverageDirectory": "./coverage",
-  "testEnvironment": "node"
+    "testRegex": "(\\\\src\\\\.*|\\\\test\\\\.*)\\.(spec|test)\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "src/**/*.(t|j)s",
+      "test/**/*.(t|j)s"
+    ],
+    "coverageDirectory": "./coverage",
+    "testEnvironment": "node"
   }
 }

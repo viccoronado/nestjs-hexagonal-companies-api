@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CreateCompanyUseCase } from '../../src/application/use-cases/CreateCompanyUseCase';
 import { ICompanyRepository } from '../../src/domain/repositories/ICompanyRepository';
-import { CompanyType } from '../../src/domain/entities/CompanyType';
 import { BadRequestException } from '@nestjs/common';
 import { Company } from '../../src/domain/entities/Company';
-import { CreateCompanyDto } from '../../src/domain/dtos/CreateCompanyDTO';
+import { CompanyType } from '../../src/domain/entities/CompanyType';
+import { CreateCompanyDto } from '../../src/domain/dtos/CreateCompanyDto';
 
 describe('CreateCompanyUseCase', () => {
   let useCase: CreateCompanyUseCase;
@@ -21,10 +21,7 @@ describe('CreateCompanyUseCase', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         CreateCompanyUseCase,
-        {
-          provide: 'ICompanyRepository',
-          useValue: mockRepository,
-        },
+        { provide: 'ICompanyRepository', useValue: mockRepository },
       ],
     }).compile();
 
@@ -33,29 +30,27 @@ describe('CreateCompanyUseCase', () => {
 
   it('should create a company successfully', async () => {
     const dto: CreateCompanyDto = {
-      id: 'test-id',
-      name: 'Test Company',
+      name: 'Empresa Test',
       type: CompanyType.EMPRESA_PYME,
     };
 
-    jest.spyOn(Company, 'create').mockReturnValue({
-      id: dto.id,
+    const fakeCompany = {
+      id: 'uuid',
       name: dto.name,
       type: dto.type,
       joinedAt: new Date(),
-    } as Company);
+    } as Company;
+
+    jest.spyOn(Company, 'create').mockReturnValue(fakeCompany);
 
     const result = await useCase.execute(dto);
 
-    expect(result).toBeDefined();
-    expect(result.name).toBe(dto.name);
-    expect(result.type).toBe(dto.type);
-    expect(mockRepository.save).toHaveBeenCalledWith(result);
+    expect(result).toBe(fakeCompany);
+    expect(mockRepository.save).toHaveBeenCalledWith(fakeCompany);
   });
 
   it('should throw BadRequestException if name is empty', async () => {
     const dto: CreateCompanyDto = {
-      id: 'test-id',
       name: '',
       type: CompanyType.EMPRESA_PYME,
     };
@@ -66,8 +61,7 @@ describe('CreateCompanyUseCase', () => {
 
   it('should throw BadRequestException if type is invalid', async () => {
     const dto: any = {
-      id: 'test-id',
-      name: 'Test Company',
+      name: 'Empresa Test',
       type: 'INVALID_TYPE',
     };
 
